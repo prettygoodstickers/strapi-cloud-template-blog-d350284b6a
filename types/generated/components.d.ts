@@ -1,5 +1,78 @@
 import type { Schema, Attribute } from '@strapi/strapi';
 
+export interface CtaSectionCard extends Schema.Component {
+  collectionName: 'components_cta_section_cards';
+  info: {
+    displayName: 'card';
+  };
+  attributes: {
+    title: Attribute.String;
+    subtitle: Attribute.String;
+    image: Attribute.Media;
+  };
+}
+
+export interface MenuItem extends Schema.Component {
+  collectionName: 'components_menu_items';
+  info: {
+    displayName: 'item';
+  };
+  attributes: {
+    title: Attribute.String;
+    slug: Attribute.String &
+      Attribute.CustomField<
+        'plugin::slug.slug',
+        {
+          pattern: 'title';
+        }
+      >;
+  };
+}
+
+export interface MenuMenu extends Schema.Component {
+  collectionName: 'components_menu_menus';
+  info: {
+    displayName: 'menu';
+  };
+  attributes: {
+    name: Attribute.String;
+    menu: Attribute.Component<'menu.item', true>;
+  };
+}
+
+export interface QuickstartrowCard extends Schema.Component {
+  collectionName: 'components_quickstartrow_cards';
+  info: {
+    displayName: 'card';
+  };
+  attributes: {
+    title: Attribute.String;
+    slug: Attribute.String &
+      Attribute.CustomField<
+        'plugin::slug.slug',
+        {
+          pattern: 'title';
+        }
+      >;
+    image: Attribute.Media;
+  };
+}
+
+export interface SharedArticleHeaderType1 extends Schema.Component {
+  collectionName: 'components_shared_article_header_type_1s';
+  info: {
+    displayName: 'Article Header nr.1 ';
+    description: '';
+  };
+  attributes: {
+    backgroundColor: Attribute.String &
+      Attribute.CustomField<'plugin::color-picker.color'>;
+    altBackgroundColor: Attribute.String &
+      Attribute.CustomField<'plugin::color-picker.color'>;
+    image: Attribute.Media;
+  };
+}
+
 export interface SharedMedia extends Schema.Component {
   collectionName: 'components_shared_media';
   info: {
@@ -65,6 +138,11 @@ export interface SharedSlider extends Schema.Component {
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
+      'cta-section.card': CtaSectionCard;
+      'menu.item': MenuItem;
+      'menu.menu': MenuMenu;
+      'quickstartrow.card': QuickstartrowCard;
+      'shared.article-header-type-1': SharedArticleHeaderType1;
       'shared.media': SharedMedia;
       'shared.quote': SharedQuote;
       'shared.rich-text': SharedRichText;

@@ -1,0 +1,35 @@
+{
+  "kind": "singleType",
+  "collectionName": "component_article_header_1s",
+  "info": {
+    "singularName": "component-article-header-1",
+    "pluralName": "component-article-header-1s",
+    "displayName": "Component Article Header 1"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "text__by": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string"
+    },
+    "text__min_read": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string"
+    }
+  }
+}

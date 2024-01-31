@@ -1,0 +1,39 @@
+{
+  "kind": "singleType",
+  "collectionName": "section_footers",
+  "info": {
+    "singularName": "section-footer",
+    "pluralName": "section-footers",
+    "displayName": "Section Footer",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "columns": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "dynamiczone",
+      "components": [
+        "menu.menu"
+      ]
+    }
+  }
+}

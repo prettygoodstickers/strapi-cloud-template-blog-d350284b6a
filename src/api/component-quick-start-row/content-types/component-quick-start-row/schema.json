@@ -1,0 +1,39 @@
+{
+  "kind": "singleType",
+  "collectionName": "component_quick_start_rows",
+  "info": {
+    "singularName": "component-quick-start-row",
+    "pluralName": "component-quick-start-rows",
+    "displayName": "Component QuickStartRow",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "text__sideText": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string"
+    },
+    "card": {
+      "displayName": "card",
+      "type": "component",
+      "repeatable": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "quickstartrow.card"
+    }
+  }
+}

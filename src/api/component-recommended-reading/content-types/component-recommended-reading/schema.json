@@ -1,0 +1,28 @@
+{
+  "kind": "singleType",
+  "collectionName": "component_recommended_readings",
+  "info": {
+    "singularName": "component-recommended-reading",
+    "pluralName": "component-recommended-readings",
+    "displayName": "Component Recommended Reading",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "text__recommendedReading": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}
