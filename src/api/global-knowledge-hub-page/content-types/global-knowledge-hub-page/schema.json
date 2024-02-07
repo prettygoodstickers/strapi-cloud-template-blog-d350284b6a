@@ -1,0 +1,56 @@
+{
+  "kind": "singleType",
+  "collectionName": "global_knowledge_hub_pages",
+  "info": {
+    "singularName": "global-knowledge-hub-page",
+    "pluralName": "global-knowledge-hub-pages",
+    "displayName": "All Posts -> Knowledge Hub",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "homeSlug": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string",
+      "default": "Home"
+    },
+    "articleTypeSlug": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string",
+      "default": "knowledge-hub"
+    },
+    "text__article_type": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string",
+      "default": "Knowledge Hub"
+    },
+    "text__home": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string",
+      "default": "Home"
+    }
+  }
+}

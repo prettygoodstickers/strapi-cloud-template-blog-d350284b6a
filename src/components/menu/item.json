@@ -1,19 +1,19 @@
 {
   "collectionName": "components_menu_items",
   "info": {
-    "displayName": "item"
+    "displayName": "item",
+    "description": ""
   },
   "options": {},
   "attributes": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
-    "slug": {
-      "type": "customField",
-      "options": {
-        "pattern": "title"
-      },
-      "customField": "plugin::slug.slug"
+    "url": {
+      "type": "string",
+      "regex": "^[A-Za-z0-9-._~:/?#[\\]@!$&'()*+,;=]*$",
+      "required": true
     }
   }
 }

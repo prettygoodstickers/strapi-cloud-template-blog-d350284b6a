@@ -10,19 +10,11 @@
   "options": {
     "draftAndPublish": false
   },
-  "pluginOptions": {
-    "i18n": {
-      "localized": true
-    }
-  },
+  "pluginOptions": {},
   "attributes": {
     "name": {
       "type": "string",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
+      "pluginOptions": {}
     },
     "avatar": {
       "type": "media",
@@ -33,19 +25,44 @@
         "files",
         "videos"
       ],
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
+      "pluginOptions": {}
     },
     "email": {
       "type": "string",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
+      "pluginOptions": {}
+    },
+    "description": {
+      "type": "text"
+    },
+    "blog_posts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::blog-post.blog-post",
+      "mappedBy": "author"
+    },
+    "knowledge_hub_posts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::knowledge-hub-post.knowledge-hub-post",
+      "mappedBy": "author"
+    },
+    "global_posts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::global-post.global-post",
+      "mappedBy": "author"
+    },
+    "material_posts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::material-post.material-post",
+      "mappedBy": "author"
+    },
+    "product_posts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product-post.product-post",
+      "mappedBy": "author"
     }
   }
 }

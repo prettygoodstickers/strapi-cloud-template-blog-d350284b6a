@@ -4,7 +4,7 @@
   "info": {
     "singularName": "section-footer",
     "pluralName": "section-footers",
-    "displayName": "Section Footer",
+    "displayName": "Menu -> Footer",
     "description": ""
   },
   "options": {
@@ -16,8 +16,8 @@
     }
   },
   "attributes": {
-    "title": {
-      "type": "string",
+    "companyInfo": {
+      "type": "text",
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -34,6 +34,26 @@
       "components": [
         "menu.menu"
       ]
+    },
+    "importantMenu": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "dynamiczone",
+      "components": [
+        "menu.item"
+      ],
+      "max": 7
+    },
+    "vatNrInfo": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string"
     }
   }
 }

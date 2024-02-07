@@ -4,7 +4,7 @@
   "info": {
     "singularName": "article-tag",
     "pluralName": "article-tags",
-    "displayName": "Article Tag",
+    "displayName": "Tag",
     "description": ""
   },
   "options": {
@@ -24,13 +24,7 @@
       },
       "type": "string",
       "required": true,
-      "unique": true
-    },
-    "blogPosts": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::blog-post.blog-post",
-      "mappedBy": "tags"
+      "unique": false
     },
     "slug": {
       "pluginOptions": {
@@ -38,8 +32,41 @@
           "localized": true
         }
       },
-      "type": "uid",
-      "targetField": "name"
+      "type": "customField",
+      "options": {
+        "pattern": "title"
+      },
+      "customField": "plugin::slug.slug"
+    },
+    "blog_posts": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::blog-post.blog-post",
+      "mappedBy": "tags"
+    },
+    "global_posts": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::global-post.global-post",
+      "mappedBy": "tags"
+    },
+    "material_posts": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::material-post.material-post",
+      "mappedBy": "tags"
+    },
+    "product_posts": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product-post.product-post",
+      "mappedBy": "tags"
+    },
+    "knowledge_hub_posts": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::knowledge-hub-post.knowledge-hub-post",
+      "mappedBy": "tags"
     }
   }
 }

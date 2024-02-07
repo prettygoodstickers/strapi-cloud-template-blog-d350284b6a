@@ -1,0 +1,54 @@
+{
+  "kind": "singleType",
+  "collectionName": "global_material_pages",
+  "info": {
+    "singularName": "global-material-page",
+    "pluralName": "global-material-pages",
+    "displayName": "All Posts -> Material",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "text__article_type": {
+      "type": "string",
+      "default": "Material",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "text__home": {
+      "type": "string",
+      "default": "Home",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "articleTypeSlug": {
+      "type": "string",
+      "default": "material",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "homeSlug": {
+      "type": "customField",
+      "options": {
+        "pattern": "title"
+      },
+      "customField": "plugin::slug.slug"
+    }
+  }
+}

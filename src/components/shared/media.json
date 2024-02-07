@@ -2,18 +2,24 @@
   "collectionName": "components_shared_media",
   "info": {
     "displayName": "Media",
-    "icon": "file-video"
+    "icon": "file-video",
+    "description": ""
   },
   "options": {},
   "attributes": {
     "file": {
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos"
-      ],
       "type": "media",
-      "multiple": false
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "widthPercent": {
+      "type": "integer",
+      "max": 100,
+      "min": 0,
+      "default": 100
     }
   }
 }

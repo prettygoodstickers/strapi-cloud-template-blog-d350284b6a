@@ -4,7 +4,8 @@
   "info": {
     "singularName": "component-article-header-1",
     "pluralName": "component-article-header-1s",
-    "displayName": "Component Article Header 1"
+    "displayName": "Component -> Article Header 1",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false

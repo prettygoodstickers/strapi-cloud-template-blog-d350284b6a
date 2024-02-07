@@ -4,7 +4,7 @@
   "info": {
     "singularName": "global-blog-page",
     "pluralName": "global-blog-pages",
-    "displayName": "Global Blog Page",
+    "displayName": "All Posts -> Blog/Article",
     "description": ""
   },
   "options": {
@@ -16,16 +16,7 @@
     }
   },
   "attributes": {
-    "breadcrumbHome": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "type": "string",
-      "default": "Home"
-    },
-    "breadcrumbHomeSlug": {
+    "homeSlug": {
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -37,7 +28,7 @@
       },
       "customField": "plugin::slug.slug"
     },
-    "blogSlug": {
+    "articleTypeSlug": {
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -45,6 +36,22 @@
       },
       "type": "string",
       "default": "blog"
+    },
+    "text__article_type": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string"
+    },
+    "text__home": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string"
     }
   }
 }

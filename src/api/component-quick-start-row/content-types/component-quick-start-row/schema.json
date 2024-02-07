@@ -4,7 +4,7 @@
   "info": {
     "singularName": "component-quick-start-row",
     "pluralName": "component-quick-start-rows",
-    "displayName": "Component QuickStartRow",
+    "displayName": "Component -> QuickStartRow",
     "description": ""
   },
   "options": {
@@ -24,7 +24,7 @@
       },
       "type": "string"
     },
-    "card": {
+    "cards": {
       "displayName": "card",
       "type": "component",
       "repeatable": true,

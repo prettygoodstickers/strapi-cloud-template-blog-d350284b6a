@@ -8,7 +8,6 @@ import i18N from "@strapi/plugin-i18n/strapi-admin";
 import usersPermissions from "@strapi/plugin-users-permissions/strapi-admin";
 import slug from "custom-slug/strapi-admin";
 import importExportEntries from "strapi-plugin-import-export-entries/strapi-admin";
-import tagsinput from "strapi-plugin-tagsinput/strapi-admin";
 import { renderAdmin } from "@strapi/strapi/admin";
 
 renderAdmin(document.getElementById("strapi"), {
@@ -19,6 +18,5 @@ renderAdmin(document.getElementById("strapi"), {
     "users-permissions": usersPermissions,
     slug: slug,
     "import-export-entries": importExportEntries,
-    tagsinput: tagsinput,
   },
 });

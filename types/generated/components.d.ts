@@ -16,16 +16,11 @@ export interface MenuItem extends Schema.Component {
   collectionName: 'components_menu_items';
   info: {
     displayName: 'item';
+    description: '';
   };
   attributes: {
-    title: Attribute.String;
-    slug: Attribute.String &
-      Attribute.CustomField<
-        'plugin::slug.slug',
-        {
-          pattern: 'title';
-        }
-      >;
+    title: Attribute.String & Attribute.Required;
+    url: Attribute.String & Attribute.Required;
   };
 }
 
@@ -70,6 +65,14 @@ export interface SharedArticleHeaderType1 extends Schema.Component {
     altBackgroundColor: Attribute.String &
       Attribute.CustomField<'plugin::color-picker.color'>;
     image: Attribute.Media;
+    imageWidthPercent: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+          max: 100;
+        },
+        number
+      >;
   };
 }
 
@@ -78,21 +81,19 @@ export interface SharedMedia extends Schema.Component {
   info: {
     displayName: 'Media';
     icon: 'file-video';
+    description: '';
   };
   attributes: {
-    file: Attribute.Media;
-  };
-}
-
-export interface SharedQuote extends Schema.Component {
-  collectionName: 'components_shared_quotes';
-  info: {
-    displayName: 'Quote';
-    icon: 'indent';
-  };
-  attributes: {
-    title: Attribute.String;
-    body: Attribute.Text;
+    file: Attribute.Media & Attribute.Required;
+    widthPercent: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+          max: 100;
+        },
+        number
+      > &
+      Attribute.DefaultTo<100>;
   };
 }
 
@@ -104,7 +105,7 @@ export interface SharedRichText extends Schema.Component {
     description: '';
   };
   attributes: {
-    body: Attribute.RichText;
+    content: Attribute.Blocks;
   };
 }
 
@@ -135,6 +136,24 @@ export interface SharedSlider extends Schema.Component {
   };
 }
 
+export interface SharedSpacer extends Schema.Component {
+  collectionName: 'components_shared_spacers';
+  info: {
+    displayName: 'Spacer';
+  };
+  attributes: {
+    space: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+          max: 100;
+        },
+        number
+      > &
+      Attribute.DefaultTo<0>;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
@@ -144,10 +163,10 @@ declare module '@strapi/types' {
       'quickstartrow.card': QuickstartrowCard;
       'shared.article-header-type-1': SharedArticleHeaderType1;
       'shared.media': SharedMedia;
-      'shared.quote': SharedQuote;
       'shared.rich-text': SharedRichText;
       'shared.seo': SharedSeo;
       'shared.slider': SharedSlider;
+      'shared.spacer': SharedSpacer;
     }
   }
 }

@@ -1,0 +1,57 @@
+{
+  "kind": "singleType",
+  "collectionName": "global_global_pages",
+  "info": {
+    "singularName": "global-global-page",
+    "pluralName": "global-global-pages",
+    "displayName": "All Posts -> General/Root",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "homeSlug": {
+      "type": "string",
+      "default": "home",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "text__home": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string",
+      "default": "Home",
+      "required": true
+    },
+    "text__article_type": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string",
+      "default": "Global"
+    },
+    "articleTypeSlug": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string",
+      "default": "global"
+    }
+  }
+}

@@ -4,7 +4,7 @@
   "info": {
     "singularName": "blog-category",
     "pluralName": "blog-categories",
-    "displayName": "Blog Category",
+    "displayName": "Category -> Blog/Article",
     "description": ""
   },
   "options": {
@@ -16,20 +16,13 @@
     }
   },
   "attributes": {
-    "name": {
+    "title": {
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
       },
-      "type": "string",
-      "required": true
-    },
-    "blogPosts": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::blog-post.blog-post",
-      "mappedBy": "blogCategory"
+      "type": "string"
     },
     "slug": {
       "pluginOptions": {
@@ -49,7 +42,13 @@
           "localized": true
         }
       },
-      "type": "string"
+      "type": "text"
+    },
+    "blog_posts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::blog-post.blog-post",
+      "mappedBy": "category"
     }
   }
 }

@@ -4,7 +4,7 @@
   "info": {
     "singularName": "component-cta-section",
     "pluralName": "component-cta-sections",
-    "displayName": "Component CTA Section",
+    "displayName": "Component -> CTA Section",
     "description": ""
   },
   "options": {
@@ -51,16 +51,6 @@
       },
       "component": "cta-section.card",
       "max": 3
-    },
-    "importantMenu": {
-      "type": "component",
-      "repeatable": false,
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "component": "menu.menu"
     }
   }
 }

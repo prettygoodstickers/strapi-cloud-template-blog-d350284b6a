@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "category_products",
+  "info": {
+    "singularName": "category-product",
+    "pluralName": "category-products",
+    "displayName": "Category -> Product"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string"
+    },
+    "slug": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "customField",
+      "options": {
+        "pattern": "title"
+      },
+      "customField": "plugin::slug.slug"
+    },
+    "description": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "text"
+    },
+    "post_products": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product-post.product-post",
+      "mappedBy": "category"
+    }
+  }
+}

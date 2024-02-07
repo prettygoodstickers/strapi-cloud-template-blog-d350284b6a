@@ -786,7 +786,7 @@ export interface ApiArticleTagArticleTag extends Schema.CollectionType {
   info: {
     singularName: 'article-tag';
     pluralName: 'article-tags';
-    displayName: 'Article Tag';
+    displayName: 'Tag';
     description: '';
   };
   options: {
@@ -800,23 +800,48 @@ export interface ApiArticleTagArticleTag extends Schema.CollectionType {
   attributes: {
     name: Attribute.String &
       Attribute.Required &
-      Attribute.Unique &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    blogPosts: Attribute.Relation<
+    slug: Attribute.String &
+      Attribute.CustomField<
+        'plugin::slug.slug',
+        {
+          pattern: 'title';
+        }
+      > &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    blog_posts: Attribute.Relation<
       'api::article-tag.article-tag',
       'manyToMany',
       'api::blog-post.blog-post'
     >;
-    slug: Attribute.UID<'api::article-tag.article-tag', 'name'> &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
+    global_posts: Attribute.Relation<
+      'api::article-tag.article-tag',
+      'manyToMany',
+      'api::global-post.global-post'
+    >;
+    material_posts: Attribute.Relation<
+      'api::article-tag.article-tag',
+      'manyToMany',
+      'api::material-post.material-post'
+    >;
+    product_posts: Attribute.Relation<
+      'api::article-tag.article-tag',
+      'manyToMany',
+      'api::product-post.product-post'
+    >;
+    knowledge_hub_posts: Attribute.Relation<
+      'api::article-tag.article-tag',
+      'manyToMany',
+      'api::knowledge-hub-post.knowledge-hub-post'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -851,30 +876,36 @@ export interface ApiAuthorAuthor extends Schema.CollectionType {
   options: {
     draftAndPublish: false;
   };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
   attributes: {
-    name: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    avatar: Attribute.Media &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    email: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
+    name: Attribute.String;
+    avatar: Attribute.Media;
+    email: Attribute.String;
+    description: Attribute.Text;
+    blog_posts: Attribute.Relation<
+      'api::author.author',
+      'oneToMany',
+      'api::blog-post.blog-post'
+    >;
+    knowledge_hub_posts: Attribute.Relation<
+      'api::author.author',
+      'oneToMany',
+      'api::knowledge-hub-post.knowledge-hub-post'
+    >;
+    global_posts: Attribute.Relation<
+      'api::author.author',
+      'oneToMany',
+      'api::global-post.global-post'
+    >;
+    material_posts: Attribute.Relation<
+      'api::author.author',
+      'oneToMany',
+      'api::material-post.material-post'
+    >;
+    product_posts: Attribute.Relation<
+      'api::author.author',
+      'oneToMany',
+      'api::product-post.product-post'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -889,12 +920,6 @@ export interface ApiAuthorAuthor extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
-    localizations: Attribute.Relation<
-      'api::author.author',
-      'oneToMany',
-      'api::author.author'
-    >;
-    locale: Attribute.String;
   };
 }
 
@@ -903,7 +928,7 @@ export interface ApiBlogCategoryBlogCategory extends Schema.CollectionType {
   info: {
     singularName: 'blog-category';
     pluralName: 'blog-categories';
-    displayName: 'Blog Category';
+    displayName: 'Category -> Blog/Article';
     description: '';
   };
   options: {
@@ -915,18 +940,12 @@ export interface ApiBlogCategoryBlogCategory extends Schema.CollectionType {
     };
   };
   attributes: {
-    name: Attribute.String &
-      Attribute.Required &
+    title: Attribute.String &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    blogPosts: Attribute.Relation<
-      'api::blog-category.blog-category',
-      'oneToMany',
-      'api::blog-post.blog-post'
-    >;
     slug: Attribute.String &
       Attribute.CustomField<
         'plugin::slug.slug',
@@ -939,12 +958,17 @@ export interface ApiBlogCategoryBlogCategory extends Schema.CollectionType {
           localized: true;
         };
       }>;
-    description: Attribute.String &
+    description: Attribute.Text &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
+    blog_posts: Attribute.Relation<
+      'api::blog-category.blog-category',
+      'oneToMany',
+      'api::blog-post.blog-post'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -973,7 +997,7 @@ export interface ApiBlogPostBlogPost extends Schema.CollectionType {
   info: {
     singularName: 'blog-post';
     pluralName: 'blog-posts';
-    displayName: 'Blog Post';
+    displayName: 'Post -> Blog/Article';
     description: '';
   };
   options: {
@@ -986,7 +1010,12 @@ export interface ApiBlogPostBlogPost extends Schema.CollectionType {
   };
   attributes: {
     title: Attribute.String &
-      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    subtitle: Attribute.String &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -998,24 +1027,13 @@ export interface ApiBlogPostBlogPost extends Schema.CollectionType {
         {
           pattern: 'title';
         }
-      > &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    subtitle: Attribute.Text &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
+      >;
     blocks: Attribute.DynamicZone<
       [
         'shared.media',
         'shared.rich-text',
-        'shared.quote',
-        'shared.article-header-type-1'
+        'shared.article-header-type-1',
+        'shared.spacer'
       ]
     > &
       Attribute.SetPluginOptions<{
@@ -1031,7 +1049,7 @@ export interface ApiBlogPostBlogPost extends Schema.CollectionType {
       }>;
     author: Attribute.Relation<
       'api::blog-post.blog-post',
-      'oneToOne',
+      'manyToOne',
       'api::author.author'
     >;
     hasTableOfContent: Attribute.Boolean &
@@ -1039,18 +1057,23 @@ export interface ApiBlogPostBlogPost extends Schema.CollectionType {
         i18n: {
           localized: true;
         };
-      }> &
-      Attribute.DefaultTo<false>;
-    blogCategory: Attribute.Relation<
-      'api::blog-post.blog-post',
-      'manyToOne',
-      'api::blog-category.blog-category'
-    >;
+      }>;
     tags: Attribute.Relation<
       'api::blog-post.blog-post',
       'manyToMany',
       'api::article-tag.article-tag'
     >;
+    category: Attribute.Relation<
+      'api::blog-post.blog-post',
+      'manyToOne',
+      'api::blog-category.blog-category'
+    >;
+    coverImage: Attribute.Media &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1075,13 +1098,83 @@ export interface ApiBlogPostBlogPost extends Schema.CollectionType {
   };
 }
 
+export interface ApiCategoryProductCategoryProduct
+  extends Schema.CollectionType {
+  collectionName: 'category_products';
+  info: {
+    singularName: 'category-product';
+    pluralName: 'category-products';
+    displayName: 'Category -> Product';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    slug: Attribute.String &
+      Attribute.CustomField<
+        'plugin::slug.slug',
+        {
+          pattern: 'title';
+        }
+      > &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    description: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    post_products: Attribute.Relation<
+      'api::category-product.category-product',
+      'oneToMany',
+      'api::product-post.product-post'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::category-product.category-product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::category-product.category-product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::category-product.category-product',
+      'oneToMany',
+      'api::category-product.category-product'
+    >;
+    locale: Attribute.String;
+  };
+}
+
 export interface ApiComponentArticleHeader1ComponentArticleHeader1
   extends Schema.SingleType {
   collectionName: 'component_article_header_1s';
   info: {
     singularName: 'component-article-header-1';
     pluralName: 'component-article-header-1s';
-    displayName: 'Component Article Header 1';
+    displayName: 'Component -> Article Header 1';
+    description: '';
   };
   options: {
     draftAndPublish: false;
@@ -1133,7 +1226,7 @@ export interface ApiComponentCtaSectionComponentCtaSection
   info: {
     singularName: 'component-cta-section';
     pluralName: 'component-cta-sections';
-    displayName: 'Component CTA Section';
+    displayName: 'Component -> CTA Section';
     description: '';
   };
   options: {
@@ -1175,12 +1268,6 @@ export interface ApiComponentCtaSectionComponentCtaSection
         },
         number
       >;
-    importantMenu: Attribute.Component<'menu.menu'> &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1210,7 +1297,7 @@ export interface ApiComponentQuickStartRowComponentQuickStartRow
   info: {
     singularName: 'component-quick-start-row';
     pluralName: 'component-quick-start-rows';
-    displayName: 'Component QuickStartRow';
+    displayName: 'Component -> QuickStartRow';
     description: '';
   };
   options: {
@@ -1228,7 +1315,7 @@ export interface ApiComponentQuickStartRowComponentQuickStartRow
           localized: true;
         };
       }>;
-    card: Attribute.Component<'quickstartrow.card', true> &
+    cards: Attribute.Component<'quickstartrow.card', true> &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -1263,7 +1350,7 @@ export interface ApiComponentRecommendedReadingComponentRecommendedReading
   info: {
     singularName: 'component-recommended-reading';
     pluralName: 'component-recommended-readings';
-    displayName: 'Component Recommended Reading';
+    displayName: 'Component -> Recommended Reading';
     description: '';
   };
   options: {
@@ -1375,7 +1462,7 @@ export interface ApiGlobalBlogPageGlobalBlogPage extends Schema.SingleType {
   info: {
     singularName: 'global-blog-page';
     pluralName: 'global-blog-pages';
-    displayName: 'Global Blog Page';
+    displayName: 'All Posts -> Blog/Article';
     description: '';
   };
   options: {
@@ -1387,14 +1474,7 @@ export interface ApiGlobalBlogPageGlobalBlogPage extends Schema.SingleType {
     };
   };
   attributes: {
-    breadcrumbHome: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }> &
-      Attribute.DefaultTo<'Home'>;
-    breadcrumbHomeSlug: Attribute.String &
+    homeSlug: Attribute.String &
       Attribute.CustomField<
         'plugin::slug.slug',
         {
@@ -1406,13 +1486,25 @@ export interface ApiGlobalBlogPageGlobalBlogPage extends Schema.SingleType {
           localized: true;
         };
       }>;
-    blogSlug: Attribute.String &
+    articleTypeSlug: Attribute.String &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }> &
       Attribute.DefaultTo<'blog'>;
+    text__article_type: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    text__home: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1436,16 +1528,223 @@ export interface ApiGlobalBlogPageGlobalBlogPage extends Schema.SingleType {
   };
 }
 
-export interface ApiSectionFooterSectionFooter extends Schema.SingleType {
-  collectionName: 'section_footers';
+export interface ApiGlobalGlobalPageGlobalGlobalPage extends Schema.SingleType {
+  collectionName: 'global_global_pages';
   info: {
-    singularName: 'section-footer';
-    pluralName: 'section-footers';
-    displayName: 'Section Footer';
+    singularName: 'global-global-page';
+    pluralName: 'global-global-pages';
+    displayName: 'All Posts -> General/Root';
     description: '';
   };
   options: {
     draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    homeSlug: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<'home'>;
+    text__home: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<'Home'>;
+    text__article_type: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<'Global'>;
+    articleTypeSlug: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<'global'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::global-global-page.global-global-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::global-global-page.global-global-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::global-global-page.global-global-page',
+      'oneToMany',
+      'api::global-global-page.global-global-page'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiGlobalKnowledgeHubPageGlobalKnowledgeHubPage
+  extends Schema.SingleType {
+  collectionName: 'global_knowledge_hub_pages';
+  info: {
+    singularName: 'global-knowledge-hub-page';
+    pluralName: 'global-knowledge-hub-pages';
+    displayName: 'All Posts -> Knowledge Hub';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    homeSlug: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<'Home'>;
+    articleTypeSlug: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<'knowledge-hub'>;
+    text__article_type: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<'Knowledge Hub'>;
+    text__home: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<'Home'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::global-knowledge-hub-page.global-knowledge-hub-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::global-knowledge-hub-page.global-knowledge-hub-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::global-knowledge-hub-page.global-knowledge-hub-page',
+      'oneToMany',
+      'api::global-knowledge-hub-page.global-knowledge-hub-page'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiGlobalMaterialPageGlobalMaterialPage
+  extends Schema.SingleType {
+  collectionName: 'global_material_pages';
+  info: {
+    singularName: 'global-material-page';
+    pluralName: 'global-material-pages';
+    displayName: 'All Posts -> Material';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    text__article_type: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<'Material'>;
+    text__home: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<'Home'>;
+    articleTypeSlug: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<'material'>;
+    homeSlug: Attribute.String &
+      Attribute.CustomField<
+        'plugin::slug.slug',
+        {
+          pattern: 'title';
+        }
+      >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::global-material-page.global-material-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::global-material-page.global-material-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::global-material-page.global-material-page',
+      'oneToMany',
+      'api::global-material-page.global-material-page'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiGlobalPostGlobalPost extends Schema.CollectionType {
+  collectionName: 'global_posts';
+  info: {
+    singularName: 'global-post';
+    pluralName: 'global-posts';
+    displayName: 'Post -> General/Root';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
   };
   pluginOptions: {
     i18n: {
@@ -1459,7 +1758,530 @@ export interface ApiSectionFooterSectionFooter extends Schema.SingleType {
           localized: true;
         };
       }>;
+    subtitle: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    slug: Attribute.String &
+      Attribute.CustomField<
+        'plugin::slug.slug',
+        {
+          pattern: 'title';
+        }
+      > &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    blocks: Attribute.DynamicZone<
+      [
+        'shared.article-header-type-1',
+        'shared.media',
+        'shared.spacer',
+        'shared.rich-text'
+      ]
+    > &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    description: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    author: Attribute.Relation<
+      'api::global-post.global-post',
+      'manyToOne',
+      'api::author.author'
+    >;
+    coverImage: Attribute.Media &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    tags: Attribute.Relation<
+      'api::global-post.global-post',
+      'manyToMany',
+      'api::article-tag.article-tag'
+    >;
+    hasTableOfContent: Attribute.Boolean &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<false>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::global-post.global-post',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::global-post.global-post',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::global-post.global-post',
+      'oneToMany',
+      'api::global-post.global-post'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiGlobalProductPageGlobalProductPage
+  extends Schema.SingleType {
+  collectionName: 'global_product_pages';
+  info: {
+    singularName: 'global-product-page';
+    pluralName: 'global-product-pages';
+    displayName: 'All Posts -> Product';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    homeSlug: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<'Home'>;
+    text__home: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<'home'>;
+    articleTypeSlug: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<'product'>;
+    text__article_type: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<'Product'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::global-product-page.global-product-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::global-product-page.global-product-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::global-product-page.global-product-page',
+      'oneToMany',
+      'api::global-product-page.global-product-page'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiKnowledgeHubPostKnowledgeHubPost
+  extends Schema.CollectionType {
+  collectionName: 'knowledge_hub_posts';
+  info: {
+    singularName: 'knowledge-hub-post';
+    pluralName: 'knowledge-hub-posts';
+    displayName: 'Post -> Knowledge Hub';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    subtitle: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    slug: Attribute.String &
+      Attribute.CustomField<
+        'plugin::slug.slug',
+        {
+          pattern: 'title';
+        }
+      > &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    blocks: Attribute.DynamicZone<
+      [
+        'shared.media',
+        'shared.article-header-type-1',
+        'shared.rich-text',
+        'shared.spacer'
+      ]
+    > &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    description: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    author: Attribute.Relation<
+      'api::knowledge-hub-post.knowledge-hub-post',
+      'manyToOne',
+      'api::author.author'
+    >;
+    hasTableOfContent: Attribute.Boolean &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<false>;
+    tags: Attribute.Relation<
+      'api::knowledge-hub-post.knowledge-hub-post',
+      'manyToMany',
+      'api::article-tag.article-tag'
+    >;
+    coverImage: Attribute.Media &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::knowledge-hub-post.knowledge-hub-post',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::knowledge-hub-post.knowledge-hub-post',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::knowledge-hub-post.knowledge-hub-post',
+      'oneToMany',
+      'api::knowledge-hub-post.knowledge-hub-post'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiMaterialPostMaterialPost extends Schema.CollectionType {
+  collectionName: 'material_posts';
+  info: {
+    singularName: 'material-post';
+    pluralName: 'material-posts';
+    displayName: 'Post -> Material';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    slug: Attribute.String &
+      Attribute.CustomField<
+        'plugin::slug.slug',
+        {
+          pattern: 'title';
+        }
+      > &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    subtitle: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    blocks: Attribute.DynamicZone<
+      [
+        'shared.article-header-type-1',
+        'shared.media',
+        'shared.rich-text',
+        'shared.spacer'
+      ]
+    > &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    description: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    author: Attribute.Relation<
+      'api::material-post.material-post',
+      'manyToOne',
+      'api::author.author'
+    >;
+    hasTableOfContent: Attribute.Boolean &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<false>;
+    tags: Attribute.Relation<
+      'api::material-post.material-post',
+      'manyToMany',
+      'api::article-tag.article-tag'
+    >;
+    coverImage: Attribute.Media &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::material-post.material-post',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::material-post.material-post',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::material-post.material-post',
+      'oneToMany',
+      'api::material-post.material-post'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiProductPostProductPost extends Schema.CollectionType {
+  collectionName: 'product_posts';
+  info: {
+    singularName: 'product-post';
+    pluralName: 'product-posts';
+    displayName: 'Post -> Product';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    subtitle: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    slug: Attribute.String &
+      Attribute.CustomField<
+        'plugin::slug.slug',
+        {
+          pattern: 'title';
+        }
+      > &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    blocks: Attribute.DynamicZone<
+      [
+        'shared.rich-text',
+        'shared.media',
+        'shared.article-header-type-1',
+        'shared.spacer'
+      ]
+    > &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    description: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    author: Attribute.Relation<
+      'api::product-post.product-post',
+      'manyToOne',
+      'api::author.author'
+    >;
+    hasTableOfContent: Attribute.Boolean &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<false>;
+    tags: Attribute.Relation<
+      'api::product-post.product-post',
+      'manyToMany',
+      'api::article-tag.article-tag'
+    >;
+    coverImage: Attribute.Media &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    category: Attribute.Relation<
+      'api::product-post.product-post',
+      'manyToOne',
+      'api::category-product.category-product'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::product-post.product-post',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::product-post.product-post',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::product-post.product-post',
+      'oneToMany',
+      'api::product-post.product-post'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiSectionFooterSectionFooter extends Schema.SingleType {
+  collectionName: 'section_footers';
+  info: {
+    singularName: 'section-footer';
+    pluralName: 'section-footers';
+    displayName: 'Menu -> Footer';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    companyInfo: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     columns: Attribute.DynamicZone<['menu.menu']> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    importantMenu: Attribute.DynamicZone<['menu.item']> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.SetMinMax<
+        {
+          max: 7;
+        },
+        number
+      >;
+    vatNrInfo: Attribute.String &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -1488,6 +2310,58 @@ export interface ApiSectionFooterSectionFooter extends Schema.SingleType {
   };
 }
 
+export interface ApiSectionHeaderSectionHeader extends Schema.SingleType {
+  collectionName: 'section_headers';
+  info: {
+    singularName: 'section-header';
+    pluralName: 'section-headers';
+    displayName: 'Menu -> Header';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    items: Attribute.DynamicZone<['menu.item']> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    topMessage: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::section-header.section-header',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::section-header.section-header',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::section-header.section-header',
+      'oneToMany',
+      'api::section-header.section-header'
+    >;
+    locale: Attribute.String;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -1510,13 +2384,23 @@ declare module '@strapi/types' {
       'api::author.author': ApiAuthorAuthor;
       'api::blog-category.blog-category': ApiBlogCategoryBlogCategory;
       'api::blog-post.blog-post': ApiBlogPostBlogPost;
+      'api::category-product.category-product': ApiCategoryProductCategoryProduct;
       'api::component-article-header-1.component-article-header-1': ApiComponentArticleHeader1ComponentArticleHeader1;
       'api::component-cta-section.component-cta-section': ApiComponentCtaSectionComponentCtaSection;
       'api::component-quick-start-row.component-quick-start-row': ApiComponentQuickStartRowComponentQuickStartRow;
       'api::component-recommended-reading.component-recommended-reading': ApiComponentRecommendedReadingComponentRecommendedReading;
       'api::global.global': ApiGlobalGlobal;
       'api::global-blog-page.global-blog-page': ApiGlobalBlogPageGlobalBlogPage;
+      'api::global-global-page.global-global-page': ApiGlobalGlobalPageGlobalGlobalPage;
+      'api::global-knowledge-hub-page.global-knowledge-hub-page': ApiGlobalKnowledgeHubPageGlobalKnowledgeHubPage;
+      'api::global-material-page.global-material-page': ApiGlobalMaterialPageGlobalMaterialPage;
+      'api::global-post.global-post': ApiGlobalPostGlobalPost;
+      'api::global-product-page.global-product-page': ApiGlobalProductPageGlobalProductPage;
+      'api::knowledge-hub-post.knowledge-hub-post': ApiKnowledgeHubPostKnowledgeHubPost;
+      'api::material-post.material-post': ApiMaterialPostMaterialPost;
+      'api::product-post.product-post': ApiProductPostProductPost;
       'api::section-footer.section-footer': ApiSectionFooterSectionFooter;
+      'api::section-header.section-header': ApiSectionHeaderSectionHeader;
     }
   }
 }
